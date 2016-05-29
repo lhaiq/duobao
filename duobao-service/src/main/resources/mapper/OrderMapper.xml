@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hengsu.duobao.mall.repository.OrderRepository" >
+  <resultMap id="BaseResultMap" type="com.hengsu.duobao.mall.entity.Order" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="apply_time" property="applyTime" jdbcType="TIMESTAMP" />
+    <result column="finish_time" property="finishTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="apply_type" property="applyType" jdbcType="INTEGER" />
+    <result column="money" property="money" jdbcType="DOUBLE" />
+    <result column="shop_list" property="shopList" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, order_id, user_id, apply_time, finish_time, status, apply_type, money, shop_list
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from mall_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from mall_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hengsu.duobao.mall.entity.Order" >
+    insert into mall_order (id, order_id, user_id, 
+      apply_time, finish_time, status, 
+      apply_type, money, shop_list
+      )
+    values (#{id,jdbcType=BIGINT}, #{orderId,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, 
+      #{applyTime,jdbcType=TIMESTAMP}, #{finishTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{applyType,jdbcType=INTEGER}, #{money,jdbcType=DOUBLE}, #{shopList,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hengsu.duobao.mall.entity.Order" >
+    insert into mall_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="applyTime != null" >
+        apply_time,
+      </if>
+      <if test="finishTime != null" >
+        finish_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="applyType != null" >
+        apply_type,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="shopList != null" >
+        shop_list,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="applyTime != null" >
+        #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishTime != null" >
+        #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="applyType != null" >
+        #{applyType,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="shopList != null" >
+        #{shopList,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hengsu.duobao.mall.entity.Order" >
+    update mall_order
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="applyTime != null" >
+        apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishTime != null" >
+        finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="applyType != null" >
+        apply_type = #{applyType,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="shopList != null" >
+        shop_list = #{shopList,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hengsu.duobao.mall.entity.Order" >
+    update mall_order
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=BIGINT},
+      apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      apply_type = #{applyType,jdbcType=INTEGER},
+      money = #{money,jdbcType=DOUBLE},
+      shop_list = #{shopList,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="com.hengsu.duobao.mall.entity.Order" >
+    select count(*) from mall_order
+    <where >
+      <if test="id != null" >
+        and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="orderId != null" >
+        and order_id = #{orderId,jdbcType=VARCHAR}
+      </if>
+      <if test="userId != null" >
+        and user_id = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="applyTime != null" >
+        and apply_time = #{applyTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="finishTime != null" >
+        and finish_time = #{finishTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="status != null" >
+        and status = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="applyType != null" >
+        and apply_type = #{applyType,jdbcType=INTEGER}
+      </if>
+      <if test="money != null" >
+        and money = #{money,jdbcType=DOUBLE}
+      </if>
+      <if test="shopList != null" >
+        and shop_list = #{shopList,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <select id="selectPage" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from mall_order where 1 = 1 
+    <if test="param1.id != null" >
+      and id = #{param1.id,jdbcType=BIGINT}
+    </if>
+    <if test="param1.orderId != null" >
+      and order_id = #{param1.orderId,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.userId != null" >
+      and user_id = #{param1.userId,jdbcType=BIGINT}
+    </if>
+    <if test="param1.applyTime != null" >
+      and apply_time = #{param1.applyTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="param1.finishTime != null" >
+      and finish_time = #{param1.finishTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="param1.status != null" >
+      and status = #{param1.status,jdbcType=INTEGER}
+    </if>
+    <if test="param1.applyType != null" >
+      and apply_type = #{param1.applyType,jdbcType=INTEGER}
+    </if>
+    <if test="param1.money != null" >
+      and money = #{param1.money,jdbcType=DOUBLE}
+    </if>
+    <if test="param1.shopList != null" >
+      and shop_list = #{param1.shopList,jdbcType=VARCHAR}
+    </if>
+    <if test="param2.sort != null" >
+      order by 
+      <foreach collection="param2.sort" item="order" separator="," >
+        ${order.property} ${order.direction}
+      </foreach>
+    </if>
+    <if test="param2.offset >= 0 and param2.pageSize > 0" >
+      limit ${param2.offset}, ${param2.pageSize}
+    </if>
+  </select>
+</mapper>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hengsu.duobao.mall.repository.WinnerRepository" >
+  <resultMap id="BaseResultMap" type="com.hengsu.duobao.mall.entity.Winner" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="shop_id" property="shopId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="code" property="code" jdbcType="BIGINT" />
+    <result column="datetime" property="datetime" jdbcType="TIMESTAMP" />
+    <result column="refer_code" property="referCode" jdbcType="BIGINT" />
+    <result column="time_code" property="timeCode" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, shop_id, user_id, code, datetime, refer_code, time_code
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from mall_winner
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from mall_winner
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hengsu.duobao.mall.entity.Winner" >
+    insert into mall_winner (id, shop_id, user_id, 
+      code, datetime, refer_code, 
+      time_code)
+    values (#{id,jdbcType=BIGINT}, #{shopId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, 
+      #{code,jdbcType=BIGINT}, #{datetime,jdbcType=TIMESTAMP}, #{referCode,jdbcType=BIGINT}, 
+      #{timeCode,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hengsu.duobao.mall.entity.Winner" >
+    insert into mall_winner
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="datetime != null" >
+        datetime,
+      </if>
+      <if test="referCode != null" >
+        refer_code,
+      </if>
+      <if test="timeCode != null" >
+        time_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=BIGINT},
+      </if>
+      <if test="datetime != null" >
+        #{datetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="referCode != null" >
+        #{referCode,jdbcType=BIGINT},
+      </if>
+      <if test="timeCode != null" >
+        #{timeCode,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hengsu.duobao.mall.entity.Winner" >
+    update mall_winner
+    <set >
+      <if test="shopId != null" >
+        shop_id = #{shopId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=BIGINT},
+      </if>
+      <if test="datetime != null" >
+        datetime = #{datetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="referCode != null" >
+        refer_code = #{referCode,jdbcType=BIGINT},
+      </if>
+      <if test="timeCode != null" >
+        time_code = #{timeCode,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hengsu.duobao.mall.entity.Winner" >
+    update mall_winner
+    set shop_id = #{shopId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      code = #{code,jdbcType=BIGINT},
+      datetime = #{datetime,jdbcType=TIMESTAMP},
+      refer_code = #{referCode,jdbcType=BIGINT},
+      time_code = #{timeCode,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="com.hengsu.duobao.mall.entity.Winner" >
+    select count(*) from mall_winner
+    <where >
+      <if test="id != null" >
+        and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="shopId != null" >
+        and shop_id = #{shopId,jdbcType=BIGINT}
+      </if>
+      <if test="userId != null" >
+        and user_id = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="code != null" >
+        and code = #{code,jdbcType=BIGINT}
+      </if>
+      <if test="datetime != null" >
+        and datetime = #{datetime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="referCode != null" >
+        and refer_code = #{referCode,jdbcType=BIGINT}
+      </if>
+      <if test="timeCode != null" >
+        and time_code = #{timeCode,jdbcType=BIGINT}
+      </if>
+    </where>
+  </select>
+  <select id="selectPage" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from mall_winner where 1 = 1 
+    <if test="param1.id != null" >
+      and id = #{param1.id,jdbcType=BIGINT}
+    </if>
+    <if test="param1.shopId != null" >
+      and shop_id = #{param1.shopId,jdbcType=BIGINT}
+    </if>
+    <if test="param1.userId != null" >
+      and user_id = #{param1.userId,jdbcType=BIGINT}
+    </if>
+    <if test="param1.code != null" >
+      and code = #{param1.code,jdbcType=BIGINT}
+    </if>
+    <if test="param1.datetime != null" >
+      and datetime = #{param1.datetime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="param1.referCode != null" >
+      and refer_code = #{param1.referCode,jdbcType=BIGINT}
+    </if>
+    <if test="param1.timeCode != null" >
+      and time_code = #{param1.timeCode,jdbcType=BIGINT}
+    </if>
+    <if test="param2.sort != null" >
+      order by 
+      <foreach collection="param2.sort" item="order" separator="," >
+        ${order.property} ${order.direction}
+      </foreach>
+    </if>
+    <if test="param2.offset >= 0 and param2.pageSize > 0" >
+      limit ${param2.offset}, ${param2.pageSize}
+    </if>
+  </select>
+</mapper>

@@ -1,0 +1,4 @@
+rootProject.name = 'duobao'
+include 'duobao-service-api'
+include 'duobao-service'
+include 'duobao-webapp'
