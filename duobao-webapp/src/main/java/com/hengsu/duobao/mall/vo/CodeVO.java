@@ -10,7 +10,16 @@ public class CodeVO{
 	private Long shopId;
 	private Long userId;
 	private Integer status;
-		
+	private Long orderId;
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
+	}
+
+	public Long getOrderId() {
+		return orderId;
+	}
+
 	public void setId(Long id){
 		this.id = id;
 	}

@@ -30,7 +30,7 @@
       #{num,jdbcType=INTEGER}, #{remainNum,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.hengsu.duobao.mall.entity.Shopping" >
+  <insert id="insertSelective" parameterType="com.hengsu.duobao.mall.entity.Shopping" keyProperty="id" useGeneratedKeys="true">
     insert into mall_shopping
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

@@ -2,12 +2,12 @@ apply from: "./libraries.gradle"
 
 buildscript {
 	repositories {
-		maven { url "https://repo.spring.io/plugins-release" }
+		maven { url hkntvMavenCentral }
 	}
 	dependencies {
 		//Provides additional optional and provided dependency configurations for Gradle along with Maven POM generation support
 		classpath ("org.springframework.build.gradle:propdeps-plugin:0.0.7")
-//		classpath ("com.hkntv.gradleplugin:gradleplugin-restdoc:1.1.0-SNAPSHOT")
+		classpath ("com.hkntv.gradleplugin:gradleplugin-restdoc:1.1.0-SNAPSHOT")
 		classpath ('org.gradle.api.plugins:gradle-cargo-plugin:1.5')
 	}
 }
@@ -108,6 +108,7 @@ project("duobao-service-api") {
 	dependencies {
 		compile(libraries.pylon_core)
 		compile(libraries.pylon_data)
+		compile group: 'org.apache.commons', name: 'commons-math3', version: '3.0'
 //		compile(fileTree(dir: "../lib", include: "*.jar"))
 	}
 }

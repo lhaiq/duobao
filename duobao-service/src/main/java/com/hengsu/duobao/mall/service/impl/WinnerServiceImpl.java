@@ -5,6 +5,11 @@ import com.hengsu.duobao.mall.model.WinnerModel;
 import com.hengsu.duobao.mall.repository.WinnerRepository;
 import com.hengsu.duobao.mall.service.WinnerService;
 import com.hkntv.pylon.core.beans.mapping.BeanMapper;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Transformer;
+import org.apache.commons.collections4.functors.SwitchTransformer;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.math3.stat.StatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
@@ -12,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class WinnerServiceImpl implements WinnerService {
@@ -61,8 +67,21 @@ public class WinnerServiceImpl implements WinnerService {
     public void lottery(Long shopId) {
 
         //TODO 时间和老时彩
-        String sql = "select sum(*) from mall_order order by id desc limit 0,50";
-        Long timeCode = jdbcTemplate.queryForLong(sql);
+        String sql = "select apply_time from mall_order order by id desc limit 0,50";
+        List<Long> applyTimes = jdbcTemplate.queryForList(sql,Long.class);
+        CollectionUtils.transform(applyTimes,new Transformer<Long,Long>(){
+
+            @Override
+            public Long transform(Long input) {
+                return null;
+            }
+        });
+
+        Long timeCode = 0L;
+        for(Long time:applyTimes){
+            timeCode+=time;
+        }
+
         //查询彩票号码
         Long referCode = 00000L;
         Long count = jdbcTemplate.queryForLong("select count(1) from mall_code where shop_id=?", shopId);

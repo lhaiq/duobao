@@ -11,8 +11,7 @@ public class ShoppingModel{
 	private Integer num;
 	private Integer remainNum;
 	private Integer status;
-	private Integer type;
-		
+
 	public void setId(Long id){
 		this.id = id;
 	}
@@ -61,11 +60,5 @@ public class ShoppingModel{
 		return this.status;
 	}
 
-	public Integer getType() {
-		return type;
-	}
 
-	public void setType(Integer type) {
-		this.type = type;
-	}
 }

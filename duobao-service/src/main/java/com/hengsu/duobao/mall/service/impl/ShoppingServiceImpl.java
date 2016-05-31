@@ -5,11 +5,13 @@ import com.hengsu.duobao.core.BillNumberBuilder;
 import com.hengsu.duobao.mall.model.BuyShoppingModel;
 import com.hengsu.duobao.mall.model.OrderModel;
 import com.hengsu.duobao.mall.service.GoodsService;
+import com.hengsu.duobao.mall.service.OrderService;
 import com.hengsu.duobao.mall.service.WinnerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +44,9 @@ public class ShoppingServiceImpl implements ShoppingService {
     private WinnerService winnerService;
 
     @Autowired
+    private OrderService orderService;
+
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Transactional
@@ -53,7 +58,10 @@ public class ShoppingServiceImpl implements ShoppingService {
     @Transactional
     @Override
     public int createSelective(ShoppingModel shoppingModel) {
-        return shoppingRepo.insertSelective(beanMapper.map(shoppingModel, Shopping.class));
+        Shopping shopping = beanMapper.map(shoppingModel, Shopping.class);
+        int retVal = shoppingRepo.insertSelective(shopping);
+        shoppingModel.setId(shopping.getId());
+        return retVal;
     }
 
     @Transactional
@@ -93,20 +101,61 @@ public class ShoppingServiceImpl implements ShoppingService {
 
         for (BuyShoppingModel buyShoppingModel : buyShoppingModels) {
             Integer type = jdbcTemplate.queryForInt(sql, buyShoppingModel.getShopId());
-            buyShopping(buyShoppingModel.getShopId(), type, buyShoppingModel.getNum());
+            buyShopping(buyShoppingModel, type);
             money += buyShoppingModel.getNum();
         }
 
         //创建订单
         String orderId = BillNumberBuilder.nextBillNumber();
         OrderModel orderModel = new OrderModel();
-        orderModel.setApplyTime(new Date());
+        orderModel.setApplyTime(System.currentTimeMillis());
         orderModel.setUserId(userId);
         orderModel.setMoney(money * 1.0);
         orderModel.setShopList(JSON.toJSONString(buyShoppingModels));
         orderModel.setOrderId(orderId);
+        orderService.createSelective(orderModel);
         return orderId;
 
+    }
+
+    private void buyShopping(BuyShoppingModel buyShoppingModel, int type) {
+
+        Integer num = buyShoppingModel.getNum();
+        String sql = "select * from mall_shopping where id = ? for update";
+
+        ShoppingModel shoppingModel = jdbcTemplate.queryForObject(sql,
+                new BeanPropertyRowMapper<>(ShoppingModel.class), buyShoppingModel.getShopId());
+
+        //判断状态
+        if (ShoppingService.STATUS_FINISHED == shoppingModel.getStatus()) {
+            throwBusinessException(SHOP_FINISHED);
+        }
+
+        //判断余额
+        if (shoppingModel.getRemainNum() < num) {
+            throwBusinessException(GOODS_NOT_ENOUGH);
+        }
+
+        //根据类型,判断num是否合法,以及虚拟币是否足够
+        if (GoodsService.GOODS_TYPE_10 == type) {
+            if (num % (shoppingModel.getNum() * 0.1) != 0) {
+                throwBusinessException(NUM_INVALID);
+            }
+            buyShoppingModel.setTimes((int) (num / (shoppingModel.getNum() * 0.1)));
+
+        } else if (GoodsService.GOODS_TYPE_50 == type) {
+            if (shoppingModel.getNum() * 0.5 % num != 0) {
+                throwBusinessException(NUM_INVALID);
+            }
+            buyShoppingModel.setTimes((int) (num / (shoppingModel.getNum() * 0.5)));
+
+        }
+
+        //锁定库存
+        ShoppingModel param = new ShoppingModel();
+        param.setId(buyShoppingModel.getShopId());
+        param.setRemainNum(shoppingModel.getRemainNum() - num);
+        updateByPrimaryKeySelective(param);
     }
 
     @Override
@@ -160,41 +209,6 @@ public class ShoppingServiceImpl implements ShoppingService {
     @Override
     public Page<Map<String, Object>> searchLow(Integer cityCode, Pageable pageable) {
         return null;
-    }
-
-    private void buyShopping(Long shopId, int type, int num) {
-
-        String sql = "select * from mall_shopping where id = ? for update";
-        ShoppingModel shoppingModel = jdbcTemplate.queryForObject(sql, ShoppingModel.class, shopId);
-
-        //判断状态
-        if (ShoppingService.STATUS_FINISHED == shoppingModel.getStatus()) {
-            throwBusinessException(SHOP_FINISHED);
-        }
-
-        //判断余额
-        if (shoppingModel.getRemainNum() < num) {
-            throwBusinessException(GOODS_NOT_ENOUGH);
-        }
-
-        //根据类型,判断num是否合法,以及虚拟币是否足够
-        if (GoodsService.GOODS_TYPE_10 == type) {
-            if (num / (shoppingModel.getNum() * 0.1) != 0) {
-                throwBusinessException(NUM_INVALID);
-            }
-
-        } else if (GoodsService.GOODS_TYPE_50 == type) {
-            if (shoppingModel.getNum() * 0.5 % num != 0) {
-                throwBusinessException(NUM_INVALID);
-            }
-
-        }
-
-        //锁定库存
-        ShoppingModel param = new ShoppingModel();
-        param.setId(shopId);
-        param.setRemainNum(shoppingModel.getRemainNum() - num);
-        updateByPrimaryKeySelective(param);
     }
 
 

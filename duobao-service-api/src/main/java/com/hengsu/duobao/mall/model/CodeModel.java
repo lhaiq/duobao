@@ -9,8 +9,17 @@ public class CodeModel{
 	private Long code;
 	private Long shopId;
 	private Long userId;
+	private Long orderId;
 	private Integer status;
-		
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
+	}
+
+	public Long getOrderId() {
+		return orderId;
+	}
+
 	public void setId(Long id){
 		this.id = id;
 	}

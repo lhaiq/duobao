@@ -81,11 +81,11 @@ public class ShoppingRestApiController {
     }
 
     @RequestMapping(value = "/mall/buy/shopping", method = RequestMethod.POST)
-    public ResponseEntity<ResponseEnvelope<Integer>> buyShopping(@Valid @RequestBody List<BuyShoppingVO> shoppingVOs) {
+    public ResponseEntity<ResponseEnvelope<String>> buyShopping(@Valid @RequestBody List<BuyShoppingVO> shoppingVOs) {
         List<BuyShoppingModel> buyShoppingModels = beanMapper.mapAsList(shoppingVOs, BuyShoppingModel.class);
         //TODO
-        shoppingService.buyShoppings(1L, buyShoppingModels);
-        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(1, true);
+        String orderId = shoppingService.buyShoppings(1L, buyShoppingModels);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>(orderId, true);
         return new ResponseEntity<>(responseEnv, HttpStatus.OK);
     }
 

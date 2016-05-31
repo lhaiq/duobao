@@ -42,6 +42,10 @@
 			</bean>
 		</mvc:argument-resolvers>
     </mvc:annotation-driven>
+
+	<mvc:interceptors>
+		<bean class="com.hengsu.duobao.core.interceptor.AuthInterceptor"></bean>
+	</mvc:interceptors>
     
     <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
 		<property name="ignoreAcceptHeader" value="false"/>

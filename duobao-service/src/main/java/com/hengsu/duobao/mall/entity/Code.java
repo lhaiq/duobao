@@ -9,7 +9,16 @@ public class Code {
 
     private Long userId;
 
+    private Long orderId;
     private Integer status;
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
 
     public Long getId() {
         return id;

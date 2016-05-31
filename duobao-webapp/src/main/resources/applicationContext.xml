@@ -18,7 +18,7 @@
 	<pylon-context:property-placeholder ignore-resource-not-found="true"/>
 	
 	<bean id="orikaBeanMapper" class="com.hkntv.pylon.core.beans.mapping.orika.OrikaBeanMapper">
-		<property name="basePackage" value="com.hengsu.duobao.mall.model.**"></property>
+		<property name="basePackage" value="com.hengsu.duobao.*.*.**"></property>
 	</bean>
 	
 	<!--i18n-->

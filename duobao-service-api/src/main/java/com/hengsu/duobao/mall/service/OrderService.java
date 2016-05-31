@@ -27,7 +27,7 @@ public interface OrderService {
 
     public int selectCount(OrderModel orderModel);
 
-    public OrderModel preApply(String orderId, Double money);
+    public OrderModel preApply(String orderId, double money);
 
     public void postApply(OrderModel orderModel);
 

@@ -1,7 +1,5 @@
 package com.hengsu.duobao.mall.entity;
 
-import java.util.Date;
-
 public class Order {
     private Long id;
 
@@ -9,9 +7,9 @@ public class Order {
 
     private Long userId;
 
-    private Date applyTime;
+    private Long applyTime;
 
-    private Date finishTime;
+    private Long finishTime;
 
     private Integer status;
 
@@ -45,19 +43,19 @@ public class Order {
         this.userId = userId;
     }
 
-    public Date getApplyTime() {
+    public Long getApplyTime() {
         return applyTime;
     }
 
-    public void setApplyTime(Date applyTime) {
+    public void setApplyTime(Long applyTime) {
         this.applyTime = applyTime;
     }
 
-    public Date getFinishTime() {
+    public Long getFinishTime() {
         return finishTime;
     }
 
-    public void setFinishTime(Date finishTime) {
+    public void setFinishTime(Long finishTime) {
         this.finishTime = finishTime;
     }
 
