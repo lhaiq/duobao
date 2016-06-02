@@ -11,7 +11,7 @@ public enum ErrorCode {
 
     ADMIN_PASS_ERROR("1001", "旧密码错误"),
     ADMIN_NAME_EXISTED("1001", "用户名已存在"),
-    ADMIN_LOGIN_ERROR("1001", "用户名不存在或密码错误"),
+    ADMIN_LOGIN_ERROR("1001", "密码错误"),
     NO_PERMISSION("1001", "没有权限访问该接口"),
     SYSTEM_INTERNAL_ERROR("1000", "内部错误"),
     AUTH_CODE_TIME_OUT("1001", "验证码超时"),
@@ -19,7 +19,8 @@ public enum ErrorCode {
     AUTH_TOKEN_INVALID("1003", "AUTH TOKEN非法"),
     AUTH_TOKEN_MUST("1004", "AUTH TOKEN 必须填"),
     REGISTER_PHONE_EXISTED("1005", "该手机已经注册过"),
-    LOGIN_USER_NOT_EXISTED("1006", "用户不存在"),
+    USER_NOT_EXISTED("1006", "用户不存在"),
+    AID_USER_NOT_EXISTED("1006", "推广id非法"),
 
 
 

@@ -130,7 +130,7 @@ public class OrderServiceImpl implements OrderService {
             List<BuyShoppingModel> buyShoppingModels = JSON.parseArray(orderModel.getShopList(),
                     BuyShoppingModel.class);
             for (BuyShoppingModel buyShoppingModel : buyShoppingModels) {
-                ShoppingModel shoppingModel = jdbcTemplate.queryForObject(sql, ShoppingModel.class,
+                ShoppingModel shoppingModel = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(ShoppingModel.class),
                         buyShoppingModel.getShopId());
                 ShoppingModel param = new ShoppingModel();
                 param.setId(shoppingModel.getId());

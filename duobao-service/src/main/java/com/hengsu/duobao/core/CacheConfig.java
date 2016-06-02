@@ -19,7 +19,7 @@ public class CacheConfig {
     @Qualifier("sessionCache")
     public Cache<String, AuthModel> sessionCache() {
         Cache<String, AuthModel> cache = CacheBuilder.newBuilder()
-                .expireAfterAccess(30, TimeUnit.MINUTES).build();
+                .expireAfterAccess(1, TimeUnit.DAYS).build();
         AuthModel authModel = new AuthModel(1L,1);
         cache.put("aaaaa",authModel);
 
@@ -29,9 +29,9 @@ public class CacheConfig {
     }
 
     @Bean
-    @Qualifier("identifyCodeCache")
-    public Cache identifyCodeCache() {
-        Cache cache = CacheBuilder.newBuilder()
+    @Qualifier("validateCache")
+    public Cache validateCache() {
+        Cache<String,String> cache = CacheBuilder.newBuilder()
                 .expireAfterAccess(5, TimeUnit.MINUTES).build();
         return cache;
     }

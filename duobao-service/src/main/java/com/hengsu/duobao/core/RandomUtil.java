@@ -14,7 +14,7 @@ public class RandomUtil {
      * @param length
      * @return
      */
-    public static String createRandom(boolean numberFlag, int length) {
+    public static String createRandom1(boolean numberFlag, int length) {
         String retStr = "";
         String strTable = numberFlag ? "1234567890" : "1234567890abcdefghijkmnpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         int len = strTable.length();
@@ -38,8 +38,12 @@ public class RandomUtil {
 
         return retStr;
     }
+    public static String createRandom(boolean numberFlag, int length) {
+        //TODO 上线后更改
+        return "123456";
+    }
 
-    public static String generateAuthToken(){
+    public static String generateAuthToken() {
         return UUID.randomUUID().toString();
     }
 
